@@ -1,29 +1,39 @@
 import React from "react";
+import profile_pic from '../../assets/images/profile_pic.jpeg';
 
+import { useGetProfile } from "../../hooks/auth.hook";
+// import { getUserProfile } from "../../api";
 function ProfileSection() {
+  const {data,isLoading}=useGetProfile();
+  // const {data:userdata,isLoading: isprofileLoading}=getUserProfile(data?.data.username);
+  // console.log(isLoading);
   return (
+
     <div className="flex flex-col items-center ">
-      {/* Profile Image */}
+    {
+      isLoading ? <h1 >Loading...</h1>
+      :
+    <>
       <img
-        src="https://via.placeholder.com/150"
+        src={profile_pic}
         alt="Profile"
         className="rounded-full h-24 w-24 object-cover mb-2"
       />
-
-      {/* Name */}
-      <h1 className="text-2xl font-bold text-blue-600 mb-1">John Doe</h1>
+      <h1 className="text-2xl font-bold text-blue-600 mb-1">{`${data?.data.first_name} ${data?.data.last_name}`}</h1>
 
       {/* Title */}
-      <h2 className="text-lg font-semibold text-gray-500 mb-1">
-        Software Developer
+      <h2 className="text-md font-semibold text-gray-500 mb-1">
+      Web Developer | UI UX Developer 
       </h2>
 
       {/* Username */}
       <a href="./profile/username">
-        <p className="text-sm text-gray-500 hover:text-blue-400 cursor-pointer">
-          @johndoe
+        <p className="text-sm text-blue-700 hover:text-blue-400 cursor-pointer">
+          {/* @johndoe */}
+          {data?.data.username}
         </p>
       </a>
+      </>}
     </div>
   );
 }

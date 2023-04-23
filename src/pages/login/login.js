@@ -13,10 +13,10 @@ function Login({ setID }) {
     e.preventDefault()
     const formData = new FormData(e.target)
     const formProps = Object.fromEntries(formData)
-    if (formProps.password !== formProps.confirmPassword) {
-      toast.error('Password did not match', { autoClose: 5000 })
-      return
-    }
+    // if (formProps.password !== formProps.confirmPassword) {
+    //   toast.error('Password did not match', { autoClose: 5000 })
+    //   return
+    // }
     delete formProps.confirmPassword
     signUpUserMutation.mutate(formProps, {
       onSuccess: (data) => {
@@ -30,12 +30,16 @@ function Login({ setID }) {
     e.preventDefault()
     const formData = new FormData(e.target)
     const formProps = Object.fromEntries(formData)
-    if (formProps.password !== formProps.confirmPassword) {
-      toast.error('Password did not match', { autoClose: 5000 })
-      return
-    }
+    // if (formProps.password !== formProps.confirmPassword) {
+    //   toast.error('Password did not match', { autoClose: 5000 })
+    //   return
+    // }
     delete formProps.confirmPassword
-    loginMutation.mutate(formProps)
+    loginMutation.mutate(formProps, {
+      onSuccess:()=>{
+        navigator('/')
+      }
+    })
   }
 
   useEffect(() => {

@@ -14,10 +14,11 @@ const protectedApi = axios.create({
   }
 })
 
-const loginUser = async (data) => await api.post('/auth/jwt/create/', data)
+const loginUser = async (data) => await api.post('/auth/jwt/create/', data,{headers: {}})
 const signUpUser = (step_no) => async (data) => await api.post(step_no === 1 ? '/auth/users/' : '/student/', data)
 
 const getProfile = async () => await protectedApi.get(`/auth/users/me/`)
+const getUserProfile = (username) => async () => await protectedApi.get(`/student/${username}/`)
 const editProfile = async (data) => await protectedApi.patch(`/student/${data.username}`, data)
 const getPosts = async () => await protectedApi.get('/post/')
 const createPost = async (data) => await protectedApi.post('/post/', data)
@@ -31,6 +32,7 @@ export {
   loginUser,
   signUpUser,
   getProfile,
+  getUserProfile,
   editProfile,
   getPosts,
   createPost,

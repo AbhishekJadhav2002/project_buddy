@@ -5,6 +5,8 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 import profile_banner from '../assets/images/profile_banner.jpeg';
 import profile_pic from '../assets/images/profile_pic.jpeg';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useGetUserProfile } from '../hooks/auth.hook';
 const posts = [
   {
     id: 1,
@@ -59,6 +61,8 @@ const posts = [
 ]
 
 function ProfilePage() {
+  const {username}=useParams();
+  const {data,isLoading}=useGetUserProfile(username);
   const responsive = {
     0: { items: 1 },
     568: { items: 2 },
@@ -67,11 +71,12 @@ function ProfilePage() {
   const handleDragStart = (e) => e.preventDefault();
   const [openPost, setOpenPost] = useState(false);
   const [openPost1, setOpenPost1] = useState(false);
-
+  const temp='';
 
   return (
     <>
     <EditModal/>
+    {isLoading?'Loading...':
     <main className='mx-auto my-10 rounded-lg md:w-3/5 w-11/12 border border-gray-500 shadow-lg'>
       <img alt='profile_banner_image' src={profile_banner} className='w-full max-h-[180px] object-cover' />
       <div className='px-4 mb-4'>
@@ -82,12 +87,12 @@ function ProfilePage() {
           </div>
         </div>
         <div className='flex items-center'>
-          <code className='text-3xl font-semibold'>First Last</code>
-          <span className='text-gray-500 text-sm ml-2 bg-gray-300 px-2 py-[0.8px] rounded'>Full Stack Developer | Looking for Summer Internships</span>
+          <code className='text-3xl font-semibold'>{`${data?.data.user.first_name} ${data?.data.user.last_name}`}</code>
+          <span className='text-gray-500 text-sm ml-2 bg-gray-300 px-2 py-[0.8px] rounded'>{data.data.title}</span>
         </div>
         <div className='flex flex-row flex-wrap'>
           <div className='md:w-1/2 w-full border-r border-transparent'>
-            <span className='text-gray-500'>@username</span>
+            <span className='text-gray-500'>@{data.data.user.username}</span>
             <span className='mx-2 text-gray-500'>•</span>
             <span onClick={() => setOpenPost(prevState => !prevState)} className='text-blue-400 font-medium hover:underline cursor-pointer'>Contact Details</span>
             <p className='mt-1 text-gray-700 tracking-wide'>🎂 {'25/10/2002'}</p>
@@ -96,19 +101,21 @@ function ProfilePage() {
             <div className='md:px-6 md:my-0 my-3'>
               <p className='text-lg font-medium'>Skills</p>
               <hr className='border-black-500'></hr>
-
+                React Node.js Express.js
             </div>
           </div>
         </div>
         <div className='p-3 px-6 border border-gray-300 mt-3 rounded'>
           <p className='text-lg font-medium'>About Me</p>
           <hr className='border-black-500'></hr>
-          <p>Hi, I am a driven third-year undergraduate student at Pune Institute of Computer Technology (PICT) pursuing a B.E in Electronics and Telecommunications. With a passion for Web Development, UI UX Designing, and Graphic Designing, I have honed my skills in creating visually appealing designs and user-friendly websites. I am a quick learner and continuously seek to expand my knowledge in the field. I am currently learning C++ and Java programming languages, which will further enhance my skills. I am not only a talented designer and developer, but also a natural leader who is a hard worker and a great team player. I thrive under pressure and am confident in meeting tight deadlines.</p>
+          {/* <p>Hi, I am a driven third-year undergraduate student at Pune Institute of Computer Technology (PICT) pursuing a B.E in Electronics and Telecommunications. With a passion for Web Development, UI UX Designing, and Graphic Designing, I have honed my skills in creating visually appealing designs and user-friendly websites. I am a quick learner and continuously seek to expand my knowledge in the field. I am currently learning C++ and Java programming languages, which will further enhance my skills. I am not only a talented designer and developer, but also a natural leader who is a hard worker and a great team player. I thrive under pressure and am confident in meeting tight deadlines.</p> */}
+          <p>{data.data.about_me}</p>
         </div>
         <div className='p-3 px-6 border border-gray-300 mt-3 rounded'>
           <p className='text-lg font-medium'>Education</p>
           <hr className='border-black-500'></hr>
-          <p className='font-medium mt-1'>Pune Institute of Computer Technology, Pune</p>
+          {/* <p className='font-medium mt-1'>Pune Institute of Computer Technology, Pune</p> */}
+          <p className='font-medium mt-1'>{data.data.college}</p>
           <span className='text-sm'>First Year</span>
           <span className='mx-2 text-gray-500'>•</span>
           <span className='text-sm'>Information Technology</span>
@@ -184,6 +191,7 @@ function ProfilePage() {
       </div>
 
     </main>
+    }
     {openPost && <ContactModal isOpen={openPost} onClose={setOpenPost} />}
       {openPost1 && <EditModal isOpen={openPost1} onClose={setOpenPost1} />}
 
