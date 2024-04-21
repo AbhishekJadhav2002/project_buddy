@@ -30,11 +30,11 @@ function Login({ setID }) {
     e.preventDefault()
     const formData = new FormData(e.target)
     const formProps = Object.fromEntries(formData)
-    if (formProps.password !== formProps.confirmPassword) {
-      toast.error('Password did not match', { autoClose: 5000 })
-      return
-    }
-    delete formProps.confirmPassword
+    // if (formProps.password !== formProps.confirmPassword) {
+    //   toast.error('Password did not match', { autoClose: 5000 })
+    //   return
+    // }
+    // delete formProps.confirmPassword
     loginMutation.mutate(formProps)
   }
 
@@ -86,9 +86,9 @@ function Login({ setID }) {
               <label>
                 <input type='password' placeholder='Password' name='password' />
               </label>
-              <label>
+              {/* <label>
                 <input type='password' placeholder='Confirm Password' name='confirmPassword' />
-              </label>
+              </label> */}
               <button className='button-auth mt-5'>Sign Up</button>
             </form>
           </div>
@@ -101,7 +101,7 @@ function Login({ setID }) {
               <label>
                 <input type='password' placeholder='Password' name='password' />
               </label>
-             
+
               <a className='a-password-forget hover:text-cyan-400' href='/'>
                 Forgot your password?{' '}
               </a>
