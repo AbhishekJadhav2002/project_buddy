@@ -13,11 +13,11 @@ function Login({ setID }) {
     e.preventDefault()
     const formData = new FormData(e.target)
     const formProps = Object.fromEntries(formData)
-    if (formProps.password !== formProps.confirmPassword) {
-      toast.error('Password did not match', { autoClose: 5000 })
-      return
-    }
-    delete formProps.confirmPassword
+    // if (formProps.password !== formProps.confirmPassword) {
+    //   toast.error('Password did not match', { autoClose: 5000 })
+    //   return
+    // }
+    // delete formProps.confirmPassword
     signUpUserMutation.mutate(formProps, {
       onSuccess: (data) => {
         console.log(data);
